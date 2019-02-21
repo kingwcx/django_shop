@@ -1,0 +1,14 @@
+{% extends 'index_nav.html' %}
+
+{% block content %}
+    <h1>支付成功<small>页面将在数秒后跳转</small></h1>
+    <script type="text/javascript">
+        onload=function(){
+            setTimeout(go, 3000);
+        };
+        function go(){
+            location.href="{% url 'user:order' %}";
+        }
+    </script>
+{% endblock %}
+

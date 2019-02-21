@@ -1,0 +1,35 @@
+{% extends 'index_nav.html' %}
+
+{% block content %}
+    <!--div class="col-md-2 pull-right">
+        <ul class="nav nav-pills nav-stacked">
+            <li role="presentation" class="active"><a href="#">数码产品</a></li>
+            <li role="presentation"><a href="#">衣物</a></li>
+            <li role="presentation"><a href="#">玩具</a></li>
+            <li role="presentation"><a href="#">数据库导入</a></li>
+        </ul>
+    </div-->
+    <div class="col-md-8 col-md-offset-2">
+        <div class="row">
+            {% for commodity in commodities %}
+                <div class="col-sm-6 col-md-3" >
+                    <div class="thumbnail">
+                        <a href="{% url 'front:commodity_detail_show' commodity_id=commodity.id %}" class="thumbnail">
+                            <img class="img-thumbnail" src="{{ commodity.img.url }}" alt="..."
+                                 style="height: 130px">
+                        </a>
+                        <div class="caption">
+                            <h3>{{ commodity.name }}</h3>
+                            <p>{{ commodity.type.typename }}</p>
+                            <p>¥{{ commodity.price }}</p>
+                            <p>
+                                <a href="{% url 'front:commodity_detail_show' commodity_id=commodity.id %}"
+                                   class="btn btn-primary btn-sm"  role="button">查看详情</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

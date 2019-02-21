@@ -1,0 +1,127 @@
+{% extends 'admin_nav.html' %}
+
+{% block content %}
+    <table class="table table-hover">
+        <tbody>
+            <tr>
+                <td>订单编号</td>
+                <td>{{ order.id }}</td>
+            </tr>
+            <tr>
+                <td>订单用户</td>
+                <td>{{ order.user.username }}</td>
+            </tr>
+            <tr>
+                <td>商品数目</td>
+                <td>{{ order.number }}</td>
+            </tr>
+            <tr>
+                <td>订单总价</td>
+                <td>{{ order.total_price }}</td>
+            </tr>
+            <tr>
+                <td>默认地址</td>
+                <td>{{ user.extension.address }}</td>
+            </tr>
+            <tr>
+                <td>创建时间</td>
+                <td>{{ order.creat_time.year }}年
+                    {{ order.creat_time.month }}月
+                    {{ order.creat_time.day }}日
+                    {{ order.creat_time.time }}
+                </td>
+            </tr>
+            <tr>
+                <td>付款时间</td>
+                {% if order.is_pay == True %}
+                    <td>{{ order.pay_time.year }}年
+                        {{ order.pay_time.month }}月
+                        {{ order.pay_time.day }}日
+                        {{ order.pay_time.time }}
+                    </td>
+                {% else %}
+                    <td>未付款</td>
+                    <td>
+                        <form action="{% url 'admin:order_edit_pay' %}" method="post">
+                            <input type="hidden" name="order_id" value="{{ order.id }}">
+                            <button type="submit" class="btn btn-info btn-xs">确认付款</button>
+                        </form>
+                    </td>
+                {% endif %}
+            </tr>
+            <tr>
+                <td>发货时间</td>
+                {% if order.is_send == True %}
+                    <td>{{ order.send_time.year }}年
+                        {{ order.send_time.month }}月
+                        {{ order.send_time.day }}日
+                        {{ order.send_time.time }}</td>
+                    <td>
+                        <form action="{% url 'admin:order_edit_send' %}" method="post">
+                            <input type="hidden" name="order_id" value="{{ order.id }}">
+                            <button type="submit" class="btn btn-info btn-xs">取消发货</button>
+                        </form>
+                    </td>
+                {% else %}
+                    <td>未发货</td>
+                    <td>
+                        <form action="{% url 'admin:order_edit_send' %}" method="post">
+                            <input type="hidden" name="order_id" value="{{ order.id }}">
+                            <button type="submit" class="btn btn-info btn-xs">确认发货</button>
+                        </form>
+                    </td>
+                {% endif %}
+            </tr>
+            <tr>
+                <td>完成时间</td>
+                {% if order.is_finish == True %}
+                    <td>{{ order.finish_time.year }}年
+                        {{ order.finish_time.month }}月
+                        {{ order.finish_time.day }}日
+                        {{ order.finish_time.time }}</td>
+                    <td>
+                        <form action="{% url 'admin:order_edit_finish' %}" method="post">
+                            <input type="hidden" name="order_id" value="{{ order.id }}">
+                            <button type="submit" class="btn btn-info btn-xs">取消完成</button>
+                        </form>
+                    </td>
+                {% else %}
+                    <td>未完成</td>
+                    <td>
+                        <form action="{% url 'admin:order_edit_finish' %}" method="post">
+                            <input type="hidden" name="order_id" value="{{ order.id }}">
+                            <button type="submit" class="btn btn-info btn-xs">确认完成</button>
+                        </form>
+                    </td>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+    <table class="table" style="vertical-align: middle; text-align: center;">
+        <caption>商品清单</caption>
+        <thead>
+            <tr class="">
+                <td>商品编号</td>
+                <td>商品名</td>
+                <td>单价</td>
+                <td>数量</td>
+                <td>总价</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for commodity_mid in order.commodities.all %}
+                <tr>
+                    <td style="vertical-align: middle;">{{ commodity_mid.commodity.id }}</td>
+                    <td style="vertical-align: middle;">{{ commodity_mid.commodity.name }}</td>
+                    <td style="vertical-align: middle;">{{ commodity_mid.commodity.price }}</td>
+                    <td style="vertical-align: middle;">{{ commodity_mid.number }}</td>
+                    <td style="vertical-align: middle;">{{ commodity_mid.total_price }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!--form action="" method="post">
+        <input type="hidden" name="order_id" value="">
+        <button class="btn btn-default" type="submit">删除该订单</button>
+    </form-->
+{% endblock %}

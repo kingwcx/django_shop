@@ -1,0 +1,40 @@
+{% extends 'index_nav.html' %}
+
+{% block content %}
+    <div class="col-md-10 col-md-offset-1">
+        <form action="{% url 'user:message_read_all' %}" method="post">
+            <input type="hidden" name="user_id" value="{{ request.user.id }}">
+            <button type="submit" class="btn btn-info btn-xs">一键已读</button>
+        </form>
+        <table class="table table-hover">
+            <caption>未读消息</caption>
+            {% for new_message in new_messages %}
+                <tbody>
+                    <tr>
+                        <td class="col-md-2">{{ new_message.creat_time.year }}年
+                            {{ new_message.creat_time.month }}月
+                            {{ new_message.creat_time.day }}日
+                            {{ new_message.creat_time.time }}
+                        </td>
+                        <td class="col-md-10">{{ new_message.content }}</td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+        <table class="table table-hover">
+            <caption>已读消息</caption>
+            {% for message in read_messages %}
+                <tbody>
+                    <tr>
+                        <td class="col-md-2">{{ message.creat_time.year }}年
+                            {{ message.creat_time.month }}月
+                            {{ message.creat_time.day }}日
+                            {{ message.creat_time.time }}
+                        </td>
+                        <td class="col-md-10">{{ message.content }}</td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

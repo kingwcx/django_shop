@@ -1,0 +1,56 @@
+{% extends 'index_nav.html' %}
+
+{% block content %}
+    <div class="col-md-8 col-md-offset-2">
+        <table class="table" style="vertical-align: middle; text-align: center;">
+            <thead>
+                <tr class="">
+                    <td>商品图片</td>
+                    <td>商品名</td>
+                    <td>单价</td>
+                    <td>数量</td>
+                    <td>总价</td>
+                    <td>移除</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for commodity_mid in cart.commodities.all %}
+                    <tr>
+                        <td style="vertical-align: middle;">
+                            <img class="img-rounded img-responsive center-block"
+                                 style="max-height: 10vh;max-width: 10vh"
+                                 src="{{ commodity_mid.commodity.img.url }}" alt="..">
+                        </td>
+                        <td style="vertical-align: middle;">{{ commodity_mid.commodity.name }}</td>
+                        <td style="vertical-align: middle;">{{ commodity_mid.commodity.price }}</td>
+                        <td style="vertical-align: middle;">{{ commodity_mid.number }}</td>
+                        <td style="vertical-align: middle;">{{ commodity_mid.total_price }}</td>
+                        <td style="vertical-align: middle;">
+                            <form action="{% url 'user:remove_cart' %}" method="post">
+                                <input type="hidden" name="commodity_mid_id" value="{{ commodity_mid.id }}">
+                                <button class="btn btn-default" type="submit"><i class="fa fa-remove"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div>
+            {% if cart.number != 0 %}
+                <form action="{% url 'user:clear_cart' %}" method="post">
+                    <button class="btn btn-link" type="submit">清空购物车所有商品</button>
+                </form>
+            {% endif %}
+        </div>
+        <div>
+            <p class="text-right">默认地址：{{ request.user.extension.address }}
+                                    <a href="{% url 'user:profile' %}">修改</a>
+            </p>
+            <p class="text-right">商品数目：{{ cart.number }}</p>
+            <p class="text-right">订单总价：{{ cart.total_price }}</p>
+            <form action="{% url 'user:settle_cart' %}" method="post">
+                <button class="btn btn-primary btn-sm pull-right" type="submit">结算</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

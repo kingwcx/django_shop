@@ -1,0 +1,41 @@
+{% extends 'admin_nav.html' %}
+
+{% block content %}
+    <table class="table table-hover">
+    <tbody>
+        <tr>
+            <td>商品名</td>
+            <td>{{ commodity.name }}</td>
+        </tr>
+        <tr>
+            <td>商品图</td>
+            <td><img src="{{ commodity.img.url }}" alt="..." class="img-rounded" style="width: inherit;height: 200px;"></td>
+        </tr>
+        <tr>
+            <td>类别</td>
+            <td>{{ commodity.type.typename }}</td>
+        </tr>
+        <tr>
+            <td>售价</td>
+            <td>{{ commodity.price }}</td>
+        </tr>
+        <tr>
+            <td>库存</td>
+            <td>{{ commodity.quantity }}</td>
+        </tr>
+        <tr>
+            <td>销售数目</td>
+            <td>{{ commodity.buy_quantity }}</td>
+        </tr>
+        <tr>
+            <td>简介</td>
+            <td>{{ commodity.description }}</td>
+        </tr>
+    </tbody>
+    </table>
+    <form action="{% url 'admin:delete_commodity' %}" method="post">
+        <input type="hidden" name="commodity_id" value="{{ commodity.id }}">
+        <button class="btn btn-default" type="submit">删除该商品</button>
+    </form>
+
+{% endblock %}

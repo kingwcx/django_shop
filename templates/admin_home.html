@@ -1,0 +1,14 @@
+{% extends 'admin_nav.html' %}
+
+{% block content %}
+    <div id="main" style="height: 600px;text-align: center">
+        <H2>欢迎来到商城后台,{{ request.user.first_name }}{{ request.user.last_name }}</H2>
+        <hr>
+        <h4>在这里，你可以</h4>
+        <ul class="list-unstyled">
+            <li>查看修改<a href="{% url 'admin:commodity_list' %}">商品</a>数据</li>
+            <li>查看修改<a href="{% url 'admin:user_list' %}">用户</a>数据</li>
+            <li>查看修改<a href="{% url 'admin:order_list' %}">订单</a>数据</li>
+        </ul>
+    </div>
+{% endblock %}

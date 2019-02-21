@@ -1,0 +1,45 @@
+{% extends 'admin_nav.html' %}
+
+{% block content %}
+    <table class="table table-hover">
+        <tbody>
+            <tr>
+                <td>用户名</td>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <td>权限</td>
+                <td>{{ user.is_active }}</td>
+            </tr>
+            <tr>
+                <td>性别</td>
+                <td>男</td>
+            </tr>
+            <tr>
+                <td>注册时间</td>
+                <td>{{ user.date_joined.year }}年
+                    {{ user.date_joined.month }}月
+                    {{ user.date_joined.day }}日
+                    {{ user.date_joined.time }}
+                </td>
+            </tr>
+            <tr>
+                <td>默认地址</td>
+                <td>{{ user.extension.address }}</td>
+            </tr>
+            <tr>
+                <td>密码</td>
+                <td>修改密码 按钮</td>
+            </tr>
+            <tr>
+                <td>订单</td>
+                <td>查看订单 按钮</td>
+            </tr>
+        </tbody>
+    </table>
+    <form action="{% url 'admin:delete_user' %}" method="post">
+        <input type="hidden" name="user_id" value="{{ user.id }}">
+        <button class="btn btn-default" type="submit">删除该用户</button>
+    </form>
+
+{% endblock %}

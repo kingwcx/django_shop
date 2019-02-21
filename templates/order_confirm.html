@@ -1,0 +1,43 @@
+{% extends 'index_nav.html' %}
+
+{% block content %}
+    <div class="col-md-8 col-md-offset-2">
+        <table class="table" style="vertical-align: middle; text-align: center;">
+            <thead>
+                <tr class="">
+                    <td>商品图片</td>
+                    <td>商品名</td>
+                    <td>单价</td>
+                    <td>数量</td>
+                    <td>总价</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for commodity_mid in order.commodities.all %}
+                    <tr>
+                        <td style="vertical-align: middle;">
+                            <img class="img-rounded img-responsive center-block"
+                                 style="max-height: 10vh;max-width: 10vh"
+                                 src="{{ commodity_mid.commodity.img.url }}" alt="..">
+                        </td>
+                        <td style="vertical-align: middle;">{{ commodity_mid.commodity.name }}</td>
+                        <td style="vertical-align: middle;">{{ commodity_mid.commodity.price }}</td>
+                        <td style="vertical-align: middle;">{{ commodity_mid.number }}</td>
+                        <td style="vertical-align: middle;">{{ commodity_mid.total_price }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div>
+            <p class="text-right">地址：{{ request.user.extension.address }}</p>
+            <p class="text-right">订单总价：{{ order.total_price }}</p>
+            <p>
+                <a href="{% url 'user:order' %}"
+                   class="btn btn-primary pull-right"  role="button">稍后付款</a>
+                <a href="{% url 'user:order_pay' order_id=order.id %}"
+                   class="btn btn-primary pull-right"  role="button">立刻付款</a>
+            </p>
+        </div>
+    </div>
+
+{% endblock %}

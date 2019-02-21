@@ -1,0 +1,60 @@
+{% extends 'index_nav.html' %}
+
+{% block content %}
+    <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">个人简介</div>
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            <td>用户名</td>
+                            <td>{{ request.user.username }}</td>
+                        </tr>
+                        <tr>
+                            <td>密码</td>
+                            <td>安全保护中</td>
+                        </tr>
+                        <tr>
+                            <td>注册时间</td>
+                            <td>{{ user.date_joined.year }}年
+                                {{ user.date_joined.month }}月
+                                {{ user.date_joined.day }}日
+                                {{ user.date_joined.time }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>默认地址</td>
+                            <td>{{ request.user.extension.address }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-xs"
+                                        data-toggle="modal" data-target=".bs-example-modal-lg">修改</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Large modal -->
+
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{% url 'user:edit_address' %}" method="post">
+                    <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">修改默认地址</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control" name="address" placeholder="新的地址">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">保存修改</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

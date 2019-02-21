@@ -1,0 +1,89 @@
+{% extends 'index_nav.html' %}
+
+{% block content %}
+    <div class="col-md-8 col-md-offset-2">
+        <table class="table table-bordered table-hover">
+            <caption>未完成订单</caption>
+            <thead>
+            <tr class="">
+                <td>编号</td>
+                <td>创建时间</td>
+                <td>总价</td>
+                <td>状态</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+            <tbody>
+                {% if unpay_order != None %}
+                     <tr>
+                        <td><a href="#">{{ unpay_order.id }}</a></td>
+                        <td>{{ unpay_order.creat_time.year }}年
+                            {{ unpay_order.creat_time.month }}月
+                            {{ unpay_order.creat_time.day }}日
+                            {{ unpay_order.creat_time.time }}
+                        </td>
+                        <td>{{ unpay_order.total_price }}</td>
+                        <td>未付款</td>
+                        <td><button type="button" class="btn btn-info btn-xs"
+                                    onclick="window.location.href='{% url 'user:order_confirm' %}'">立即支付</button></td>
+                    </tr>
+                {% endif %}
+                {% if unfinish_order != None %}
+                    {% for order in unfinish_order %}
+                        <tr>
+                            <td><a href="#">{{ order.id }}</a></td>
+                            <td>{{ order.creat_time.year }}年
+                                {{ order.creat_time.month }}月
+                                {{ order.creat_time.day }}日
+                                {{ order.creat_time.time }}
+                            </td>
+                            <td>{{ order.total_price }}</td>
+                            <td>
+                                {% if order.is_send == True %}
+                                   已发货
+                                {% else %}
+                                    未发货
+                                {% endif %}
+                            </td>
+                            <td>
+                                <form action="{% url 'user:finish_order' %}" method="post">
+                                    <input type="hidden" name="order_id" value="{{ order.id }}">
+                                    <button type="submit" class="btn btn-info btn-xs">确认收货</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    <table class="table table-bordered table-hover">
+            <caption>已完成订单</caption>
+            {% if finish_order != None %}
+                <thead>
+                <tr class="">
+                    <td>编号</td>
+                    <td>完成时间</td>
+                    <td>总价</td>
+                    <td>状态</td>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for order in finish_order %}
+                        <tr>
+                            <td><a href="#">{{ order.id }}</a></td>
+                            <td>{{ order.finish_time.year }}年
+                                {{ order.finish_time.month }}月
+                                {{ order.finish_time.day }}日
+                                {{ order.finish_time.time }}
+                            </td>
+                            <td>{{ order.total_price }}</td>
+                            <td>已完成</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            {% else %}
+                <p>还没有已完成订单</p>
+            {% endif %}
+        </table>
+    </div>
+{% endblock %}
